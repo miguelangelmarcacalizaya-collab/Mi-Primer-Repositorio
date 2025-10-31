@@ -1,0 +1,84 @@
+public class PilaEstatica {
+    private int[] pila;   // Arreglo que almacena los elementos
+    private int tope;     // Índice del último elemento
+    private int tamaño;   // Capacidad de la pila
+
+    // Constructor
+    public PilaEstatica(int tamaño) {
+        this.tamaño = tamaño;
+        pila = new int[tamaño];
+        tope = -1; // Cuando está vacía
+    }
+
+    // Insertar elemento
+    public void push(int dato) {
+        if (isFull()) {
+            System.out.println("❌ La pila está llena. No se puede insertar.");
+        } else {
+            tope++;
+            pila[tope] = dato;
+            System.out.println("✔️ Se insertó: " + dato);
+        }
+    }
+
+    // Eliminar elemento
+    public int pop() {
+        if (isEmpty()) {
+            System.out.println("❌ La pila está vacía. No se puede eliminar.");
+            return -1; // Valor de error
+        } else {
+            int dato = pila[tope];
+            tope--;
+            System.out.println("🗑️ Se eliminó: " + dato);
+            return dato;
+        }
+    }
+
+    // Ver el elemento superior
+    public int peek() {
+        if (isEmpty()) {
+            System.out.println("⚠️ La pila está vacía.");
+            return -1;
+        } else {
+            return pila[tope];
+        }
+    }
+
+    // Verificar si está vacía
+    public boolean isEmpty() {
+        return tope == -1;
+    }
+
+    // Verificar si está llena
+    public boolean isFull() {
+        return tope == tamaño - 1;
+    }
+
+    // Mostrar todos los elementos
+    public void mostrar() {
+        if (isEmpty()) {
+            System.out.println("⚠️ La pila está vacía.");
+        } else {
+            System.out.println("📦 Elementos en la pila:");
+            for (int i = tope; i >= 0; i--) {
+                System.out.println(pila[i]);
+            }
+        }
+    }
+
+    // Método principal
+    public static void main(String[] args) {
+        PilaEstatica pila = new PilaEstatica(5);
+
+        pila.push(10);
+        pila.push(20);
+        pila.push(30);
+
+        pila.mostrar();
+
+        pila.pop();
+        pila.mostrar();
+
+        System.out.println("👀 Elemento en la cima: " + pila.peek());
+    }
+}
