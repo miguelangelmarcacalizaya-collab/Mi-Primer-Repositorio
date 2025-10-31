@@ -1,46 +1,58 @@
-public class PilaEstatica {
-    private int[] pila;   // Arreglo que almacena los elementos
-    private int tope;     // Índice del último elemento
-    private int tamaño;   // Capacidad de la pila
+import java.util.Scanner;
+
+public class PilaDeStrings {
+    private String[] pila;
+    private int tope;
+    private int tamaño;
 
     // Constructor
-    public PilaEstatica(int tamaño) {
+    public PilaDeStrings(int tamaño) {
         this.tamaño = tamaño;
-        pila = new int[tamaño];
-        tope = -1; // Cuando está vacía
+        pila = new String[tamaño];
+        tope = -1;
     }
 
-    // Insertar elemento
-    public void push(int dato) {
+    // Insertar un elemento
+    public void push(String dato) {
         if (isFull()) {
-            System.out.println("❌ La pila está llena. No se puede insertar.");
+            System.out.println("❌ La pila está llena.");
         } else {
-            tope++;
-            pila[tope] = dato;
-            System.out.println("✔️ Se insertó: " + dato);
+            pila[++tope] = dato;
+            System.out.println("✔️ Se agregó: " + dato);
         }
     }
 
-    // Eliminar elemento
-    public int pop() {
+    // Eliminar un elemento
+    public String pop() {
         if (isEmpty()) {
-            System.out.println("❌ La pila está vacía. No se puede eliminar.");
-            return -1; // Valor de error
+            System.out.println("⚠️ La pila está vacía.");
+            return null;
         } else {
-            int dato = pila[tope];
-            tope--;
+            String dato = pila[tope--];
             System.out.println("🗑️ Se eliminó: " + dato);
             return dato;
         }
     }
 
-    // Ver el elemento superior
-    public int peek() {
+    // Ver elemento superior
+    public String peek() {
         if (isEmpty()) {
             System.out.println("⚠️ La pila está vacía.");
-            return -1;
+            return null;
         } else {
             return pila[tope];
+        }
+    }
+
+    // Mostrar todos los elementos
+    public void mostrar() {
+        if (isEmpty()) {
+            System.out.println("⚠️ No hay elementos en la pila.");
+        } else {
+            System.out.println("\n📦 Contenido de la pila:");
+            for (int i = tope; i >= 0; i--) {
+                System.out.println("[" + i + "] " + pila[i]);
+            }
         }
     }
 
@@ -54,31 +66,46 @@ public class PilaEstatica {
         return tope == tamaño - 1;
     }
 
-    // Mostrar todos los elementos
-    public void mostrar() {
-        if (isEmpty()) {
-            System.out.println("⚠️ La pila está vacía.");
-        } else {
-            System.out.println("📦 Elementos en la pila:");
-            for (int i = tope; i >= 0; i--) {
-                System.out.println(pila[i]);
-            }
-        }
-    }
-
-    // Método principal
+    // Programa principal con menú
     public static void main(String[] args) {
-        PilaEstatica pila = new PilaEstatica(5);
+        Scanner sc = new Scanner(System.in);
+        PilaDeStrings pila = new PilaDeStrings(5);
+        int opcion;
 
-        pila.push(10);
-        pila.push(20);
-        pila.push(30);
+        do {
+            System.out.println("\n--- MENÚ PILA ESTÁTICA ---");
+            System.out.println("1. Insertar palabra (push)");
+            System.out.println("2. Eliminar palabra (pop)");
+            System.out.println("3. Ver cima (peek)");
+            System.out.println("4. Mostrar pila");
+            System.out.println("5. Salir");
+            System.out.print("Elige una opción: ");
+            opcion = sc.nextInt();
+            sc.nextLine(); // limpiar buffer
 
-        pila.mostrar();
-
-        pila.pop();
-        pila.mostrar();
-
-        System.out.println("👀 Elemento en la cima: " + pila.peek());
+            switch (opcion) {
+                case 1:
+                    System.out.print("Escribe la palabra: ");
+                    String palabra = sc.nextLine();
+                    pila.push(palabra);
+                    break;
+                case 2:
+                    pila.pop();
+                    break;
+                case 3:
+                    String cima = pila.peek();
+                    if (cima != null) System.out.println("👀 En la cima está: " + cima);
+                    break;
+                case 4:
+                    pila.mostrar();
+                    break;
+                case 5:
+                    System.out.println("👋 Saliendo del programa...");
+                    break;
+                default:
+                    System.out.println("❌ Opción no válida.");
+            }
+        } while (opcion != 5);
+        sc.close();
     }
 }
